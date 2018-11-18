@@ -8,6 +8,11 @@ import { GoogleChartsModule } from 'angular-google-charts'
 
 import { AppComponent } from './app.component'
 import { CadScreenComponent } from './cad-board/cad-board.component'
+// import module
+import { ElModule } from 'element-angular'
+
+// if you use webpack, import style
+import 'element-angular/theme/index.css'
 
 @NgModule({
   declarations: [
@@ -16,6 +21,7 @@ import { CadScreenComponent } from './cad-board/cad-board.component'
   ],
   imports: [
     BrowserModule,
+    ElModule.forRoot(),
     GoogleChartsModule,
     FirebaseModule,
     HttpClientModule,

@@ -3,30 +3,31 @@ import {
   OnInit,
   ViewChild,
   OnDestroy,
-}                         from '@angular/core'
+} from '@angular/core'
 import { Subscription } from 'rxjs'
 
 import {
   GoogleChartComponent,
-}                         from 'angular-google-charts'
+} from 'angular-google-charts'
 
 import {
   GpuService,
-}               from '../gpu.service'
+} from '../gpu.service'
+import 'element-angular/theme/index.css'
 
 interface GoogleChart {
-  title       : string,
-  type        : string,
-  data        : Array<Array<string | number | {}>>,
-  roles       : Array<{type: string, role: string}>,
+  title: string,
+  type: string,
+  data: Array<Array<string | number | {}>>,
+  roles: Array<{ type: string, role: string }>,
   columnNames?: Array<string>,
-  options?    : {},
+  options?: {},
 }
 
 @Component({
-  selector   : 'app-cad-board',
+  selector: 'app-cad-board',
   templateUrl: './cad-board.component.html',
-  styleUrls  : ['./cad-board.component.css']
+  styleUrls: ['./cad-board.component.css']
 })
 export class CadScreenComponent implements OnInit, OnDestroy {
 
@@ -57,6 +58,10 @@ export class CadScreenComponent implements OnInit, OnDestroy {
   // chart: GoogleChartComponent
 
   subscription: Subscription
+  newData = []
+  pos = 0
+  tableData = []
+  totalData = {}
 
   constructor(
     private gpu: GpuService,
@@ -64,31 +69,55 @@ export class CadScreenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.gpu.getGpus().subscribe(data => {
+      console.log(data);
       const newData = []
+      this.totalData = data;
+      console.log(this.totalData);
       for (const [key, value] of Object.entries(data)) {
         console.log('changed:', key, value)
         const numberValue = parseInt(value, 10)
-        newData.push([key, numberValue])
+        var flag = 0;
+        for (var i = 0; i < key.length; i++) {
+          if (key[i] == "I" && key[i + 1] == "P") {
+            flag = 1;
+            delete (data[key]);
+            if (this.tableData.length < 4) {
+              this.tableData.push({ "key": key, "value": value })
+            }
+          }
+        }
+        if (flag == 0) {
+          newData.push([key, numberValue]);
+        }
       }
-
-      console.log(newData)
+      this.newData = newData;
       this.changingChart.data = newData
     })
+    this.repeat();
   }
 
-  ngOnDestroy () {
+  ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe()
     }
   }
 
+  repeat() {
+    let timer = setInterval(() => { this.changeChart() }, 10000);
+  }
   changeChart() {
-    this.changingChart.data = [
-      ['Copper', Math.random() * 20.0],
-      ['Silver', Math.random() * 20.0],
-      ['Gold', Math.random() * 20.0],
-      ['Platinum', Math.random() * 20.0],
-    ]
+    this.changingChart.data = [];
+    for (var i = this.pos; i < this.pos + 7; i++) {
+      if (i >= this.newData.length) {
+        break;
+      } else {
+        this.changingChart.data.push(this.newData[i])
+      }
+    }
+    this.pos += 7;
+    if (this.pos >= this.newData.length) {
+      this.pos = 0;
+    }
   }
 
 }
