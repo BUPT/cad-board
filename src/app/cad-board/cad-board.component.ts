@@ -3,31 +3,30 @@ import {
   OnInit,
   ViewChild,
   OnDestroy,
-} from '@angular/core'
-import { Subscription } from 'rxjs'
+}                         from '@angular/core'
+import { Subscription }   from 'rxjs'
 
 import {
   GoogleChartComponent,
-} from 'angular-google-charts'
+}                         from 'angular-google-charts'
 
 import {
   GpuService,
-} from '../gpu.service'
-import 'element-angular/theme/index.css'
+}                         from '../gpu.service'
 
 interface GoogleChart {
-  title: string,
-  type: string,
-  data: Array<Array<string | number | {}>>,
-  roles: Array<{ type: string, role: string }>,
+  title       : string,
+  type        : string,
+  data        : Array<Array<string | number | {}>>,
+  roles       : Array<{ type: string, role: string }>,
   columnNames?: Array<string>,
-  options?: {},
+  options?    : {},
 }
 
 @Component({
-  selector: 'app-cad-board',
+  selector   : 'app-cad-board',
   templateUrl: './cad-board.component.html',
-  styleUrls: ['./cad-board.component.css']
+  styleUrls  : ['./cad-board.component.css']
 })
 export class CadScreenComponent implements OnInit, OnDestroy {
 
@@ -35,8 +34,8 @@ export class CadScreenComponent implements OnInit, OnDestroy {
 
   changingChart = {
     title: 'Machine Learning Status',
-    type: 'BarChart',
-    data: [
+    type : 'BarChart',
+    data : [
       ['Loading ...', 1],
     ],
     columnNames: ['GPU', '%'],
@@ -58,8 +57,8 @@ export class CadScreenComponent implements OnInit, OnDestroy {
   // chart: GoogleChartComponent
 
   subscription: Subscription
-  newData = []
-  pos = 0
+  newData   = []
+  pos       = 0
   tableData = []
   totalData = {}
 
@@ -96,16 +95,17 @@ export class CadScreenComponent implements OnInit, OnDestroy {
     this.repeat();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy () {
     if (this.subscription) {
       this.subscription.unsubscribe()
     }
   }
 
-  repeat() {
+  repeat () {
     let timer = setInterval(() => { this.changeChart() }, 10000);
   }
-  changeChart() {
+
+  changeChart () {
     this.changingChart.data = [];
     for (var i = this.pos; i < this.pos + 7; i++) {
       if (i >= this.newData.length) {
