@@ -7,7 +7,7 @@ import { FirebaseModule } from './firebase'
 import { AppComponent } from './app.component'
 import { CadScreenComponent } from './cad-board/cad-board.component'
 
-import
+import { ElModule }           from 'element-angular'
 
 describe('AppComponent', () => {
 
@@ -17,6 +17,7 @@ describe('AppComponent', () => {
         FirebaseModule,
         GoogleChartsModule,
         HttpClientModule,
+        ElModule,
       ],
       declarations: [
         AppComponent,
