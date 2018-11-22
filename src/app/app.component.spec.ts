@@ -7,6 +7,8 @@ import { FirebaseModule } from './firebase'
 import { AppComponent } from './app.component'
 import { CadScreenComponent } from './cad-board/cad-board.component'
 
+import
+
 describe('AppComponent', () => {
 
   beforeEach(async(() => {
