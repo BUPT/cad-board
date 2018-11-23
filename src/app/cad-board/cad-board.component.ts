@@ -39,14 +39,14 @@ export class CadScreenComponent implements OnInit, OnDestroy {
       ['Loading ...', 1],
     ],
     columnNames: ['GPU', '%'],
-    options: {
-      animation: {
+    options    : {
+      animation : {
         duration: 250,
-        easing: 'ease-in-out',
-        startup: true
+        easing  : 'ease-in-out',
+        startup : true
       },
       hAxis: {
-        title: 'GPU Utilization',
+        title   : 'GPU Utilization',
         minValue: 0,
         maxValue: 100,
       },
@@ -69,13 +69,13 @@ export class CadScreenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.gpu.getGpus().subscribe(data => {
       console.log(data)
-      const newData = []
-      this.totalData = data
+      const newData        = []
+            this.totalData = data
       console.log(this.totalData)
       for (const [key, value] of Object.entries(data)) {
         console.log('changed:', key, value)
         const numberValue = parseInt(value, 10)
-        let flag = 0
+        let   flag        = 0
         for (let i = 0; i < key.length; i++) {
           if (key[i] === 'I' && key[i + 1] === 'P') {
             flag = 1
@@ -90,7 +90,6 @@ export class CadScreenComponent implements OnInit, OnDestroy {
         }
       }
       this.newData = newData
-      this.changingChart.data = newData
     })
     this.repeat()
   }
