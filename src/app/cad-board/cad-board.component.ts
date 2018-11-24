@@ -101,7 +101,7 @@ export class CadScreenComponent implements OnInit, OnDestroy {
   }
 
   repeat () {
-    const timer = setInterval(() => { this.changeChart() }, 10000)
+    const timer = setInterval(() => { this.changeChart() }, 2000)
   }
 
   changeChart () {
