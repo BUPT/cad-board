@@ -91,7 +91,7 @@ export class CadScreenComponent implements OnInit, OnDestroy {
       }
       this.newData = newData
     })
-    // this.repeat()
+    this.repeat()
   }
 
   ngOnDestroy () {
